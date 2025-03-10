@@ -1,0 +1,592 @@
+openapi: 3.0.0
+info:
+  title: Home Tuition Backend API
+  description: |
+    This is the backend API for the **Home Tuition Platform**, designed to manage tutors, students, and class schedules efficiently. 
+    
+    The API provides endpoints for user authentication, tutor registration, student enrollment, and class management. 
+    
+    We encourage contributions to improve and extend the API. Feel free to explore, suggest changes, or enhance the features.
+    
+    Some useful links:
+    - [Backend Repository](https://github.com/razrahul/Client-Backend)
+    - [Frontend UI](https://contact-fromdata.netlify.app)
+    
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Rahul Kumar
+    email: razrahuleee@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+
+servers:
+  - url: https://client-backend-ev0b.onrender.com/api/v1
+    description: Production Server
+  - url: http://localhost:5500/api/v1
+    description: Local Development Server
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+tags:
+  - name: Teacher
+  - name: Student
+  - name: Subject
+  - name: area
+paths:
+  /admin/teacher:
+    get:
+      tags:
+        - Teacher
+      summary: find techer subjrcyt and areaid
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: areaId
+          in: query
+          schema:
+            type: string
+          example: 67ab5744788714c671eda8e3
+        - name: subjectId
+          in: query
+          schema:
+            type: string
+          example: 67aabf39a5089d3abffc0e21
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /createTeacher:
+    post:
+      tags:
+        - Teacher
+      summary: create teacher
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: raz rahul
+                email:
+                  type: string
+                  example: razrahul@gmail.com
+                phone:
+                  type: integer
+                  example: '9708712422'
+                areaId:
+                  type: string
+                  example: 679bc80a8644cad662b9046a
+                aboutUs:
+                  type: string
+                  example: testing chai rha h
+                subjectId:
+                  type: string
+                  example: 67aabf07a5089d3abffc0e1e , 67aabf39a5089d3abffc0e21
+                chargeRate:
+                  type: string
+                  example: 100-200
+                file:
+                  type: string
+                  format: binary
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/findteacher:
+    post:
+      tags:
+        - Teacher
+      summary: find teacher name , subject and areaname
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                SubjectandAreaName: math
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /teacher/live:
+    get:
+      tags:
+        - Teacher
+      summary: Get All live Teacher
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /updateTeacher/67ab619470b80dbb551f9195:
+    put:
+      tags:
+        - Teacher
+      summary: update teacher
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: roushan kumar
+                email:
+                  type: string
+                  example: roushan@gmail.com
+                phone:
+                  type: integer
+                  example: '9708500422'
+                areaId:
+                  type: string
+                  example: 67ab5744788714c671eda8e3
+                aboutUs:
+                  type: string
+                  example: update testing chai rha h
+                subjectId:
+                  type: string
+                  example: 67aabf5ea5089d3abffc0e24, 67aabf39a5089d3abffc0e21
+                chargeRate:
+                  type: string
+                  example: 100-200
+                file:
+                  type: string
+                  format: binary
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getTeachers:
+    get:
+      tags:
+        - Teacher
+      summary: Get All teachers
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /teacher/updatelive/67ab610005dbcf58f6ab4807:
+    patch:
+      tags:
+        - Teacher
+      summary: update live teacher
+      requestBody:
+        content: {}
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getTeacherById/67ab610005dbcf58f6ab4807:
+    get:
+      tags:
+        - Teacher
+      summary: GEt Teacher By Id
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /deleteTeacher/67ab619470b80dbb551f9195:
+    delete:
+      tags:
+        - Teacher
+      summary: delete Teacher
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /student:
+    get:
+      tags:
+        - Student
+      summary: get all students
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Student
+      summary: create Student
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: raz rahul
+                email:
+                  type: string
+                  example: razrahul@gmail.com
+                phone:
+                  type: integer
+                  example: '9708712422'
+                areaId:
+                  type: string
+                  example: 679bc80a8644cad662b9046a
+                aboutUs:
+                  type: string
+                  example: testing chai rha h
+                subjectId:
+                  type: string
+                  example: 67aabf07a5089d3abffc0e1e , 67aabf39a5089d3abffc0e21
+                chargeRate:
+                  type: string
+                  example: 100-200
+                className:
+                  type: string
+                  example: 11th
+                gender:
+                  type: string
+                  example: Male
+                file:
+                  type: string
+                  format: binary
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /student/67a8f294d524a28357e2884e:
+    get:
+      tags:
+        - Student
+      summary: get Student by id
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /student/live:
+    get:
+      tags:
+        - Student
+      summary: Get All Live Students
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /student/updatelive/67a8f294d524a28357e2884e:
+    patch:
+      tags:
+        - Student
+      summary: update live status student
+      requestBody:
+        content: {}
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /student/67abaf1d10ba9f78da741fab:
+    put:
+      tags:
+        - Student
+      summary: update student
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: raz rahul
+                email:
+                  type: string
+                  example: rajan@gmail.com
+                phone:
+                  type: integer
+                  example: '9708712422'
+                areaId:
+                  type: string
+                  example: 67ab5744788714c671eda8e3
+                aboutUs:
+                  type: string
+                  example: update testing chai rha h
+                subjectId:
+                  type: string
+                  example: 67aabf07a5089d3abffc0e1e , 67aabf39a5089d3abffc0e21
+                chargeRate:
+                  type: string
+                  example: 300-200
+                className:
+                  type: string
+                  example: 12th
+                gender:
+                  type: string
+                  example: Female
+                file:
+                  type: string
+                  format: binary
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/student:
+    get:
+      tags:
+        - Student
+      summary: find student by area and subject
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: subjectId
+          in: query
+          schema:
+            type: string
+          example: 67aabf07a5089d3abffc0e1e
+        - name: areaId
+          in: query
+          schema:
+            type: string
+          example: 67ab5744788714c671eda8e3
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subject:
+    get:
+      tags:
+        - Subject
+      summary: get All Subject
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Subject
+      summary: create subject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: computer
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subject/live:
+    get:
+      tags:
+        - Subject
+      summary: get all live subject
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subject/updatelive/67aabf07a5089d3abffc0e1e:
+    patch:
+      tags:
+        - Subject
+      summary: update  islive subject
+      requestBody:
+        content: {}
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subject/67aabf39a5089d3abffc0e21:
+    get:
+      tags:
+        - Subject
+      summary: Get Subject By Id
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Subject
+      summary: update Subject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Social Science
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Subject
+      summary: Delete Subject
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /updateLiveStatus/area/67ab7fc23648ce7accb29b9a:
+    patch:
+      tags:
+        - area
+      summary: update islive area
+      requestBody:
+        content: {}
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /areas/live:
+    get:
+      tags:
+        - area
+      summary: All Live Area
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getAreas:
+    get:
+      tags:
+        - area
+      summary: get All Area
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getAreaById/67ab5744788714c671eda8e3:
+    get:
+      tags:
+        - area
+      summary: Get Area By Id
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /createArea:
+    post:
+      tags:
+        - area
+      summary: Create Area
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Benipur
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /updateArea/67ab7fc23648ce7accb29b9a:
+    put:
+      tags:
+        - area
+      summary: update Area
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Darbhanga
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /deleteArea/67ab7fc23648ce7accb29b9a:
+    delete:
+      tags:
+        - area
+      summary: delete Area
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
