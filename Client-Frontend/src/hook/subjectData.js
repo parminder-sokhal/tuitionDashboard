@@ -6,14 +6,16 @@ import {
   updateSubjectById,
   deleteSubjectById,
   updateSubjectLiveStatus,
+  getLiveSubjects,
 } from "../redux/actions/subjectaction"; // Import actions
 
 export const useSubjectData = () => {
-  const { subjects } = useSelector((state) => state.subject);
+  const { subjects, liveSubjects } = useSelector((state) => state.subject);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllSubjects());
+    dispatch(getLiveSubjects());
   }, [dispatch]);
 
   const addSubject = (newSubject) => {
@@ -30,5 +32,12 @@ export const useSubjectData = () => {
     dispatch(updateSubjectLiveStatus(id)); // Dispatch the new action to toggle isLive
   };
 
-  return { subjects, addSubject, updateSubject,deleteSubject,toggleSubjectLiveStatus };
+  return {
+    subjects,
+    liveSubjects,
+    addSubject,
+    updateSubject,
+    deleteSubject,
+    toggleSubjectLiveStatus,
+  };
 };

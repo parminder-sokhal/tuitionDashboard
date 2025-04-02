@@ -1,5 +1,5 @@
 import express from "express";
-import {config} from "dotenv"
+import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import ErrorMiddleware from "./middlewares/Error.js";
@@ -12,9 +12,7 @@ import path from "path";
 import YAML from "yaml";
 
 
-config({
-    path: "./config/config.env",
-  });
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,8 +31,8 @@ const app = express();
 app.use(morganMiddleware);
 
 const corsOptions = {
-  origin: [process.env.LOCALHOST_URL, process.env.FRONTEND_URL], // Allows all origins
-  methods: ["GET","POST","PUT","DELETE"],
+  origin: [process.env.LOCALHOST_URL, process.env.LOCALHOST_URL1, process.env.FRONTEND_URL, process.env.FRONTEND_URL1, process.env.FRONTEND_URL2], // Allows all origins
+  methods: ["GET","POST","PUT","PATCH","DELETE"],
   credentials: true, // Allows cookies and other credentials to be sent with the request
 };
 
@@ -60,14 +58,20 @@ import contactFormRoutes from "./routes/contactForm.route.js";
 import teacherRoutes from "./routes/teacher.route.js";
 import studentRoutes from "./routes/student.route.js";
 import subjectRoutes from "./routes/subject.route.js";
+import FaqRoutes from "./routes/Faq.route.js";
+import FeedbackRoutes  from "./routes/feedback.routes.js";
+import vacancyRoutes from "./routes/vacancy.route.js";
 
 app.use("/api/v1", UserRouter);
 app.use("/api/v1", areaRoutes);
-app.use("/api/v1", cityRoutes);
+// app.use("/api/v1", cityRoutes);
 app.use("/api/v1", contactFormRoutes);
 app.use("/api/v1", teacherRoutes);
 app.use("/api/v1", studentRoutes);
 app.use("/api/v1", subjectRoutes);
+app.use("/api/v1", FaqRoutes);
+app.use("/api/v1", FeedbackRoutes);
+app.use("/api/v1", vacancyRoutes);
 
 
 

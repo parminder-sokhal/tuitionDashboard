@@ -119,3 +119,7 @@ dist
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
 src/swaggerUi.yaml
+
+#for build file
+.babelrc
+dist.zip

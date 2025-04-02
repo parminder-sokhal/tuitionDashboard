@@ -133,7 +133,7 @@ export const createStudent = catchAsyncError(async (req, res, next) => {
 
     const { Id } = req.params;
 
-    const student = await Student.findById({_id:Id, isdeleted:false})
+    const student = await Student.findOne({_id:Id, isdeleted:false})
     .populate({
       path: "area",
       select: "name",
@@ -237,7 +237,7 @@ export const updateStudent = catchAsyncError(async (req, res, next) => {
 
     const { Id } = req.params;
 
-    const student = await Student.findById({_id:Id, isdeleted:false})
+    const student = await Student.findOne({_id:Id, isdeleted:false})
     .populate({
       path: "area",
       select: "name",
@@ -265,7 +265,7 @@ export const updateStudent = catchAsyncError(async (req, res, next) => {
 
     const { Id } = req.params;
 
-    const student = await Student.findById({_id:Id, isdeleted:false})
+    const student = await Student.findOne({_id:Id, isdeleted:false})
     .populate({
       path: "area",
       select: "name",

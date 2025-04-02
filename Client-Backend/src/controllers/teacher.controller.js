@@ -67,7 +67,7 @@ export const getTeacherLiveTrue = catchAsyncError( async (req, res, next) => {
 
 export const createTeacher = async (req, res, next) => {
   try {
-    const { name, email, phone, areaId, aboutUs, chargeRate } = req.body;
+    const { name, email, phone, areaId, aboutUs, chargeRate, board } = req.body;
     let { subjectId } = req.body; // subjectId might be an array or string
 
     // cheack for email
@@ -115,6 +115,7 @@ export const createTeacher = async (req, res, next) => {
       aboutUs,
       subject: subjects, // Now an array of ObjectIds
       chargeRate,
+      board,
       image: {
         public_id: mycloud.public_id,
         url: mycloud.secure_url,
@@ -148,7 +149,7 @@ export const createTeacher = async (req, res, next) => {
 export const updateTeacher = async (req, res, next) => {
   try {
     const { teacherId } = req.params;
-    const { name, email, phone, areaId, aboutUs, subjectId, chargeRate } = req.body;
+    const { name, email, phone, areaId, aboutUs, subjectId, chargeRate, board } = req.body;
 
     // Find the teacher and ensure they are not deleted
     const updatedTeacher = await Teacher.findOne({ _id: teacherId, isdeleted: false });
@@ -164,6 +165,14 @@ export const updateTeacher = async (req, res, next) => {
     updatedTeacher.area = areaId || updatedTeacher.area;
     updatedTeacher.aboutUs = aboutUs || updatedTeacher.aboutUs;
     updatedTeacher.chargeRate = chargeRate || updatedTeacher.chargeRate;
+
+   if(board){
+    if(updateTeacher.board){
+      updatedTeacher.board = board || updatedTeacher.board;
+    }else{
+      updatedTeacher.board = board || "BSEB";
+    }
+   }
 
     // Handle multiple subjectId values
     if (subjectId) {
@@ -229,7 +238,7 @@ export const deleteTeacher = async (req, res, next) => {
   const { teacherId } = req.params;
 
   try {
-    const teacher = await Teacher.findById({_id:teacherId, isdeleted:false})
+    const teacher = await Teacher.findOne({_id:teacherId, isdeleted:false})
     .populate({
       path: "subject",
       select: "name",
@@ -264,7 +273,7 @@ export const getTeacherById = catchAsyncError(async (req, res, next) => {
   
   const { teacherId } = req.params;
 
-  const teacher = await Teacher.findById({_id:teacherId, isdeleted:false})
+  const teacher = await Teacher.findOne({_id:teacherId, isdeleted:false})
   .populate({
       path: "subject",
       select: "name",
@@ -294,7 +303,7 @@ export const updateLiveTeacher = catchAsyncError(async (req, res, next) => {
 
   const { teacherId } = req.params;
 
-  const teacher = await Teacher.findById({_id:teacherId, isdeleted:false})
+  const teacher = await Teacher.findOne({_id:teacherId, isdeleted:false})
   .populate({
       path: "subject",
       select: "name",

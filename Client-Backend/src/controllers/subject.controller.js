@@ -55,7 +55,7 @@ export const getSubjectById = catchAsyncError(async (req, res, next) => {
 
   const { id } = req.params;
   
-  const subject = await Subject.findById({ _id: id, isdeleted: false });
+  const subject = await Subject.findOne({ _id: id, isdeleted: false });
 
   if (!subject) {
     return next(new ErrorHandler(404, "Subject not found"));
@@ -71,7 +71,7 @@ export const updateSubject = catchAsyncError(async (req, res, next) => {
   const { Id } = req.params;
   const { name } = req.body;
 
-  const subject = await Subject.findById({ _id: Id, isdeleted:false});
+  const subject = await Subject.findOne({ _id: Id, isdeleted:false});
 
   if (!subject) {
     return next(new ErrorHandler(404, "Subject not found"));
@@ -92,7 +92,7 @@ export const updateSubject = catchAsyncError(async (req, res, next) => {
 export const deleteSubject = catchAsyncError(async (req, res, next) => {
   const { subjectId } = req.params;
 
-  const subject = await Subject.findById({_id:subjectId, isdeleted: false});
+  const subject = await Subject.findOne({_id:subjectId, isdeleted: false});
 
   if (!subject) {
     return next(new ErrorHandler(404, "Subject not found"));

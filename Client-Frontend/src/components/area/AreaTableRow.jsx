@@ -1,5 +1,10 @@
 import React from "react";
-import { Chip, Typography, IconButton, Tooltip } from "@material-tailwind/react";
+import {
+  Chip,
+  Typography,
+  IconButton,
+  Tooltip,
+} from "@material-tailwind/react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 
 const AreaRow = ({ area, onEdit }) => {
@@ -7,14 +12,14 @@ const AreaRow = ({ area, onEdit }) => {
 
   return (
     <tr key={_id} className="hover:bg-gray-50">
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <div className="flex flex-col">
           <Typography variant="small" className="font-medium text-gray-800">
             {name}
           </Typography>
         </div>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Chip
           variant="ghost"
           size="sm"
@@ -22,13 +27,13 @@ const AreaRow = ({ area, onEdit }) => {
           color={isLive ? "green" : "blue-gray"}
         />
       </td>
-     
-      <td className="p-3 border-b">
+
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-800">
           {new Date(createdAt).toLocaleDateString()}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Tooltip content="Edit Area">
           <IconButton variant="text" onClick={() => onEdit(area)}>
             <PencilIcon className="h-4 w-4 text-gray-600" />

@@ -6,7 +6,7 @@ import sendWhatsAppMessage from "../service/whatsappService.js"
 export const getAllContactForms = async (req, res, next) => {
 
   try {
-    const contactForms = await ContactForm.find({ isdeleted: false });  
+    const contactForms = await ContactForm.find({ isdeleted: false }).sort({ createdAt: -1 });;  
     if (!contactForms.length) {
       return next(new ErrorHandler(404, "No contact forms found."));
     }
@@ -22,9 +22,9 @@ export const getAllContactForms = async (req, res, next) => {
 };
 
 export const submitContactForm = async (req, res, next) => {
-  const { name, number, whatsappNumber, email, role, class: className, subjectList, timeslot, feeRange } = req.body;
+  const { name, number, whatsappNumber, email, role,  className, subjectList, timeslot, feeRange } = req.body;
 
-  if (!name || !number || !email || !role || !className || !subjectList || !timeslot || !feeRange) {
+  if (!name || !number || !whatsappNumber || !email || !role || !className  || !timeslot ) {
     return next(new ErrorHandler(400, "All fields are required except 'incomplete'"));
   }
 
@@ -42,7 +42,7 @@ export const submitContactForm = async (req, res, next) => {
       timeslot,
       feeRange,
     });
-    const mobile = number;
+    const mobile = `+91${number}`;
 
     const message = `Hello ${name},\n\nThank you for reaching out to us. We have received your message and will get back to you as soon as possible.\n\nBest regards,\nTechTimes Team`;
 
@@ -52,7 +52,7 @@ export const submitContactForm = async (req, res, next) => {
       success: true,
       message: "Contact form submitted successfully",
       contactForm: newContactForm,
-      // response
+      response
     });
   } catch (err) {
     next(new ErrorHandler(500, err.message));  
@@ -64,7 +64,7 @@ export const updateContactForm = async (req, res, next) => {
   const { name, number, whatsappNumber, email, role, class: className, subjectList, timeslot, feeRange } = req.body;
 
   try {
-    const updatedContactForm = await ContactForm.findById({_id:formId, isdeleted: false});
+    const updatedContactForm = await ContactForm.findOne({_id:formId, isdeleted: false});
 
     if (!updatedContactForm) {
       return next(new ErrorHandler(404, "Contact form not found"));
@@ -96,7 +96,7 @@ export const deleteContactForm = async (req, res, next) => {
   const { formId } = req.params;
 
   try {
-    const contactForm = await ContactForm.findById({_id:formId, isdeleted: false});
+    const contactForm = await ContactForm.findOne({_id:formId, isdeleted: false});
 
     if (!contactForm) {
       return next(new ErrorHandler(404, "Contact form not found"));
@@ -121,7 +121,7 @@ export const deleteContactForm = async (req, res, next) => {
 export const getContactFormById = catchAsyncError(async (req, res, next) => {
   const { formId } = req.params;
 
-  const contactForm = await ContactForm.findById({_id:formId, isdeleted: false});
+  const contactForm = await ContactForm.findOne({_id:formId, isdeleted: false});
 
   if (!contactForm) {
     return next(new ErrorHandler(404, "Contact form not found"));
@@ -138,7 +138,7 @@ export const getContactFormById = catchAsyncError(async (req, res, next) => {
 export const updateLiveFrom = catchAsyncError(async (req, res, next) => {
   const { formId } = req.params;
 
-  const contactForm = await ContactForm.findById({_id:formId, isdeleted: false});
+  const contactForm = await ContactForm.findOne({_id:formId, isdeleted: false});
   if (!contactForm) {
     return next(new ErrorHandler(404, "Contact form not found"));
   }
@@ -155,7 +155,7 @@ export const updateLiveFrom = catchAsyncError(async (req, res, next) => {
 export const updateIncomplete = catchAsyncError(async (req, res, next) => {
   const { formId } = req.params;
 
-  const contactForm = await ContactForm.findById({_id:formId, isdeleted: false});
+  const contactForm = await ContactForm.findOne({_id:formId, isdeleted: false});
   
   if (!contactForm) {
     return next(new ErrorHandler(404, "Contact form not found"));

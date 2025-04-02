@@ -149,11 +149,11 @@ const EmployeeTable = () => {
 
   return (
     <>
-      <Card className="h-full w-full shadow-md">
+      <Card className="h-full w-full ">
         <CardHeader
           floated={false}
           shadow={false}
-          className="rounded-none border-b p-4"
+          className="rounded-none  p-4"
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
             <div>
@@ -178,7 +178,6 @@ const EmployeeTable = () => {
                 Employee
               </Button>
             </div>
-
           </div>
           <div className="mt-4 flex flex-col items-center gap-4 md:flex-row md:justify-between">
             <div className="relative w-full md:w-72">
@@ -200,7 +199,7 @@ const EmployeeTable = () => {
                 {TABLE_HEAD.map((head, index) => (
                   <th
                     key={head}
-                    className="p-3 border-b cursor-pointer"
+                    className="p-3  cursor-pointer"
                     onClick={() => handleSort(head.toLowerCase())}
                   >
                     <Typography
@@ -275,7 +274,7 @@ const EmployeeTable = () => {
         className="fixed inset-0 z-50 flex items-center justify-center"
       >
         <div className="fixed inset-0 bg-black bg-opacity-20" />
-        <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6 flex flex-col space-y-4 z-10">
+        <div className="relative bg-white rounded-lg  w-full max-w-md p-6 flex flex-col space-y-4 z-10">
           <DialogHeader className="text-center text-xl font-semibold text-gray-900">
             {editIndex !== null ? "Edit Employee" : "Add Employee"}
           </DialogHeader>
@@ -334,9 +333,9 @@ const EmployeeTable = () => {
         </div>
       </Dialog> */}
 
-{isModalOpen && (
+      {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+          <div className="bg-white rounded-lg  w-full max-w-md p-6">
             <h2 className="text-xl font-semibold text-center">Add Employee</h2>
             <div className="mt-4">
               <div className="mb-4">
@@ -344,7 +343,9 @@ const EmployeeTable = () => {
                 <input
                   type="text"
                   value={newRow.name}
-                  onChange={(e) => setNewRow({ ...newRow, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewRow({ ...newRow, name: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
@@ -364,7 +365,9 @@ const EmployeeTable = () => {
                 <input
                   type="text"
                   value={newRow.phone}
-                  onChange={(e) => setNewRow({ ...newRow, phone: e.target.value })}
+                  onChange={(e) =>
+                    setNewRow({ ...newRow, phone: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>

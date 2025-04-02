@@ -45,8 +45,24 @@ function AreaTable() {
 
   const filteredRows = tableRows.filter((area) => {
     const searchLower = searchTerm.toLowerCase();
-    return area.name && area.name.toLowerCase().includes(searchLower);
+
+    // Check if the name contains the search term
+    const nameMatch =
+      area.name && area.name.toLowerCase().includes(searchLower);
+
+    // Check if the search term is found in the date (createdAt field)
+    const createdAtMatch = area.createdAt
+      ? new Date(area.createdAt)
+          .toLocaleDateString()
+          .toLowerCase()
+          .includes(searchLower)
+      : false;
+
+    return nameMatch || createdAtMatch;
   });
+
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [subjectToDelete, setSubjectToDelete] = useState(null);
 
   const rowsPerPage = 6;
 
@@ -127,6 +143,7 @@ function AreaTable() {
   const handleDeleteArea = (id) => {
     deleteAreaById(id);
     setTableRows((prevRows) => prevRows.filter((area) => area._id !== id));
+    setIsConfirmationOpen(false);
   };
 
   const handlePageChange = (newPage) => {
@@ -138,14 +155,20 @@ function AreaTable() {
   const handleToggleLiveStatus = (id) => {
     toggleLiveStatus(id);
   };
-  if (areas.length === 0) {
-    return <div>Loading...</div>;
-  }
 
+  const openConfirmationDialog = (id) => {
+    setSubjectToDelete(id);
+    setIsConfirmationOpen(true);
+  };
+
+  const closeConfirmationDialog = () => {
+    setSubjectToDelete(null);
+    setIsConfirmationOpen(false);
+  };
   return (
     <>
-      <Card className="h-full w-full shadow-md">
-        <CardHeader floated={false} className="border-b p-4">
+      <Card className="h-full w-full ">
+        <CardHeader floated={false} className=" p-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
             <div>
               <Typography variant="h5">Area List</Typography>
@@ -176,68 +199,74 @@ function AreaTable() {
         </CardHeader>
 
         <CardBody className="p-4">
-          <table className="w-full table-auto">
-            <thead>
-              <tr className="bg-gray-100">
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="p-3 cursor-pointer"
-                    onClick={() => handleSort(head)}
-                  >
-                    <div className="flex items-center gap-1">
-                      {head}
-                      <ChevronUpDownIcon className="h-4 w-4" />
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {currentRows.map((area) => (
-                <tr key={area._id} className="hover:bg-gray-50">
-                  <td className="p-3 text-left">
-                    <strong>{area.name || "No name provided"}</strong>
-                  </td>
-
-                  <td className="p-3 text-left">
-                    <strong>{area.isLive ? "Active" : "Inactive"}</strong>
-                    <span onClick={() => handleToggleLiveStatus(area._id)}>
-                      {area.isLive ? (
-                        <ToggleRight className="text-blue-600 cursor-pointer" />
-                      ) : (
-                        <ToggleLeft className="text-black cursor-pointer" />
-                      )}
-                    </span>
-                  </td>
-
-                  <td className="p-3 text-left">
-                    <strong>
-                      {new Date(area.createdAt).toLocaleDateString()}
-                    </strong>
-                  </td>
-
-                  <td className="p-3 border-b flex gap-2 text-decoration-line: none;">
-                    <Button
-                      className="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white"
-                      size="sm"
-                      onClick={() => handleOpenModal(area)}
+          {tableRows.length === 0 ? (
+            <div>No Data Found</div>
+          ) : (
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="bg-gray-100">
+                  {TABLE_HEAD.map((head) => (
+                    <th
+                      key={head}
+                      className="p-3 cursor-pointer"
+                      onClick={() => handleSort(head)}
                     >
-                      <PencilIcon className="h-5 w-5 " />
-                    </Button>
-
-                    <Button
-                      className="flex items-center gap-2 text-red-600 hover:bg-red-600 hover:text-white"
-                      size="sm"
-                      onClick={() => handleDeleteArea(area._id)}
-                    >
-                      <TrashIcon className="h-5 w-5 " />
-                    </Button>
-                  </td>
+                      <div className="flex items-center gap-1">
+                        {head}
+                        {head !== "Action" && (
+                          <ChevronUpDownIcon className="h-4 w-4" />
+                        )}
+                      </div>
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentRows.map((area) => (
+                  <tr key={area._id} className="hover:bg-gray-50">
+                    <td className="p-3 text-left w-72">
+                      <strong>{area.name || "No name provided"}</strong>
+                    </td>
+
+                    <td className="p-3 text-left w-72">
+                      <strong>{area.isLive ? "Active" : "Inactive"}</strong>
+                      <span onClick={() => handleToggleLiveStatus(area._id)}>
+                        {area.isLive ? (
+                          <ToggleRight className="text-blue-600 cursor-pointer" />
+                        ) : (
+                          <ToggleLeft className="text-black cursor-pointer" />
+                        )}
+                      </span>
+                    </td>
+
+                    <td className="p-3 text-left w-72">
+                      <strong>
+                        {new Date(area.createdAt).toLocaleDateString()}
+                      </strong>
+                    </td>
+
+                    <td className="p-3  flex gap-2 text-decoration-line: none;">
+                      <Button
+                        className="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white"
+                        size="sm"
+                        onClick={() => handleOpenModal(area)}
+                      >
+                        <PencilIcon className="h-5 w-5 " />
+                      </Button>
+
+                      <Button
+                        className="flex items-center gap-2 text-red-600 hover:bg-red-600 hover:text-white"
+                        size="sm"
+                        onClick={() => openConfirmationDialog(area._id)}
+                      >
+                        <TrashIcon className="h-5 w-5 " />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </CardBody>
 
         <CardFooter className="flex items-center justify-between border-t p-4">
@@ -273,6 +302,42 @@ function AreaTable() {
         setFormData={setFormData}
         isEditing={!!editingId}
       />
+
+      {isConfirmationOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog">
+          <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
+            <div className="opacity-25 w-full h-full absolute z-10 inset-0"></div>
+            <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+              <div className="md:flex items-center">
+                <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                  <i className="bx bx-error text-3xl">&#9888;</i>
+                </div>
+                <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                  <p className="font-bold">Warning!</p>
+                  <p className="text-sm text-gray-700 mt-1">
+                    You will lose all of your data by deleting this. This action
+                    cannot be undone.
+                  </p>
+                </div>
+              </div>
+              <div className="text-center md:text-right mt-4 md:flex md:justify-end">
+                <button
+                  className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+                  onClick={() => handleDeleteArea(subjectToDelete)}
+                >
+                  Delete
+                </button>
+                <button
+                  className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
+                  onClick={closeConfirmationDialog}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

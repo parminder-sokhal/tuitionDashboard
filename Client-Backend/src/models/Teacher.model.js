@@ -22,6 +22,7 @@ const TeacherSchema = new mongoose.Schema({
     },
   ],
   chargeRate: { type: String },
+  board: { type: String },
   ...BaseModelSchema.obj, // Inherit from BaseModel
 });
 

@@ -17,47 +17,47 @@ const FormRow = ({ contact, onEdit }) => {
 
   return (
     <tr key={_id} className="hover:bg-gray-50">
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="font-medium text-gray-800">
           {name}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {email}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {number}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {whatsappNumber}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {className}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {subjectList.join(", ")}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {timeslot}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {feeRange}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Tooltip content="Edit Form">
           <IconButton variant="text" onClick={() => onEdit(contact)}>
             <PencilIcon className="h-4 w-4 text-gray-600" />

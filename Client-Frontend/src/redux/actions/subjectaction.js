@@ -3,124 +3,135 @@ import axios from "axios";
 const server = import.meta.env.VITE_BACKEND_URL;
 
 import {
-    subjectRequest,
-    fetchSubjectsSuccess,
-    subjectFail,
-    addSubject,
-    removeSubject,
-    updateSubject,
-    getSubject,
+  subjectRequest,
+  fetchSubjectsSuccess,
+  subjectFail,
+  addSubject,
+  removeSubject,
+  updateSubject,
+  getSubject,
+  getAllLiveSubjects,
 } from "../reducers/subjectslice";
 
 // Get all Subjects
 export const getAllSubjects = () => async (dispatch) => {
-    try {
-        dispatch(subjectRequest());
+  try {
+    dispatch(subjectRequest());
 
-        const { data } = await axios.get(`${server}/subject`);
+    const { data } = await axios.get(`${server}/subject`);
 
-        dispatch(fetchSubjectsSuccess(data));
-    } catch (error) {
-        dispatch(
-            subjectFail(error.response?.data?.message || "Failed to fetch subjects")
-        );
-    }
+    dispatch(fetchSubjectsSuccess(data));
+  } catch (error) {
+    dispatch(
+      subjectFail(error.response?.data?.message || "Failed to fetch subjects")
+    );
+  }
 };
 
 // Get subject by ID
 export const getSubjectById = (id) => async (dispatch) => {
-    try {
-        dispatch(subjectRequest());
+  try {
+    dispatch(subjectRequest());
 
-        const { data } = await axios.get(`${server}/subject/${id}`);
+    const { data } = await axios.get(`${server}/subject/${id}`);
 
-        dispatch(getSubject(data));
-    } catch (error) {
-        dispatch(
-            subjectFail(error.response?.data?.message || "Failed to fetch subject")
-        );
-    }
+    dispatch(getSubject(data));
+  } catch (error) {
+    dispatch(
+      subjectFail(error.response?.data?.message || "Failed to fetch subject")
+    );
+  }
 };
 
 // Create Subject
 export const createSubject = (subject) => async (dispatch) => {
-    try {
-        dispatch(subjectRequest());
+  try {
+    dispatch(subjectRequest());
 
-        const { data } = await axios.post(
-            `${server}/subject`,
-            subject,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true,
-            }
-        );
+    const { data } = await axios.post(`${server}/subject`, subject, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
-        dispatch(addSubject(data));
-        dispatch(getAllSubjects());
-    } catch (error) {
-        dispatch(
-            subjectFail(error.response?.data?.message || "Failed to create subject")
-        );
-    }
+    dispatch(addSubject(data));
+    dispatch(getAllSubjects());
+  } catch (error) {
+    dispatch(
+      subjectFail(error.response?.data?.message || "Failed to create subject")
+    );
+  }
 };
 
 // Update Subject
 export const updateSubjectById = (id, subject) => async (dispatch) => {
-    try {
-        dispatch(subjectRequest());
+  try {
+    dispatch(subjectRequest());
 
-        const { data } = await axios.put(
-            `${server}/subject/${id}`,
-            subject,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true,
-            }
-        );
+    const { data } = await axios.put(`${server}/subject/${id}`, subject, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
-        dispatch(updateSubject(data));
-        dispatch(getAllSubjects());
-
-    } catch (error) {
-        dispatch(
-            subjectFail(error.response?.data?.message || "Failed to update subject")
-        );
-    }
+    dispatch(updateSubject(data));
+    dispatch(getAllSubjects());
+  } catch (error) {
+    dispatch(
+      subjectFail(error.response?.data?.message || "Failed to update subject")
+    );
+  }
 };
 
 // Delete Subject
 export const deleteSubjectById = (id) => async (dispatch) => {
-    try {
-        dispatch(subjectRequest());
+  try {
+    dispatch(subjectRequest());
 
-        await axios.delete(`${server}/subject/${id}`);
+    await axios.delete(`${server}/subject/${id}`);
 
-        dispatch(removeSubject(id));
-    } catch (error) {
-        dispatch(
-            subjectFail(error.response?.data?.message || "Failed to delete subject")
-        );
-    }
+    dispatch(removeSubject(id));
+  } catch (error) {
+    dispatch(
+      subjectFail(error.response?.data?.message || "Failed to delete subject")
+    );
+  }
 };
 
 // Update Live Status of Subject
 export const updateSubjectLiveStatus = (id) => async (dispatch) => {
-    try {
-        dispatch(subjectRequest());
+  try {
+    dispatch(subjectRequest());
 
-        const { data } = await axios.patch(`${server}/subject/updatelive/${id}`);
+    const { data } = await axios.patch(`${server}/subject/updatelive/${id}`);
 
-        // Dispatch an updateSubject action to toggle the isLive property
-        dispatch(updateSubject(data.subject));
-        dispatch(getAllSubjects());
-    } catch (error) {
-        dispatch(
-            subjectFail(error.response?.data?.message || "Failed to update live status")
-        );
-    }
+    // Dispatch an updateSubject action to toggle the isLive property
+    dispatch(updateSubject(data.subject));
+    dispatch(getAllSubjects());
+  } catch (error) {
+    dispatch(
+      subjectFail(
+        error.response?.data?.message || "Failed to update live status"
+      )
+    );
+  }
+};
+
+export const getLiveSubjects = () => async (dispatch) => {
+  try {
+    dispatch(subjectRequest());
+
+    // API call to fetch live subjects
+    const { data } = await axios.get(`${server}/subject/live`);
+
+    dispatch(getAllLiveSubjects(data));
+  } catch (error) {
+    dispatch(
+      subjectFail(
+        error.response?.data?.message || "Failed to fetch live subjects"
+      )
+    );
+  }
 };

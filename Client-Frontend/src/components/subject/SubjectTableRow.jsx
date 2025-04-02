@@ -7,21 +7,21 @@ const SubjectRow = ({ subject, onEdit }) => {
 
   return (
     <tr key={_id} className="hover:bg-gray-50">
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="font-medium text-gray-800">
           {name}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Typography variant="small" className="text-gray-600">
           {isLive ? "Active" : "Inactive"}
         </Typography>
       </td>
-      <td className="p-3 border-b">
+      <td className="p-3 ">
         <Tooltip content="Edit Subject">
-          <IconButton 
-            variant="text" 
-            onClick={() => onEdit(subject)} 
+          <IconButton
+            variant="text"
+            onClick={() => onEdit(subject)}
             className="cursor-pointer" // Adding cursor pointer for better UX
           >
             <PencilIcon className="h-4 w-4 text-gray-600" />

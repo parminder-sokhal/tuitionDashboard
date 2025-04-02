@@ -48,7 +48,7 @@ export const updateArea = async (req, res, next) => {
   const { name } = req.body;
 
   try {
-    const updatedArea = await Area.findById(areaId);
+    const updatedArea = await Area.findOne({_id:areaId, isdeleted: false});
 
     if (!updatedArea) {
       return next(new ErrorHandler(404, "Area not found"));
@@ -109,7 +109,7 @@ export const getAreaById = catchAsyncError(async (req, res, next) => {
 
   const { areaId  } = req.params;
 
-  const area = await Area.findById({_id:areaId, isdeleted: false})
+  const area = await Area.findOne({_id:areaId, isdeleted: false})
   
   if (!area) return next(new ErrorHandler(404, "Area not found"));
 

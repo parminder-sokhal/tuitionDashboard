@@ -1,7 +1,7 @@
 import twilio from 'twilio';
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
 
-config(); // Load .env automatically
+dotenv.config(); // Load .env automatically
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;

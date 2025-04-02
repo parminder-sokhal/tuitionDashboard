@@ -9,9 +9,26 @@ import {
   addArea,
   removeArea,
   updateArea,
+  getAllLiveAreasSuccess,
 } from "../reducers/areaSlice";
 
 //Get All Areas
+
+export const getLiveAreas = () => async (dispatch) => {
+  try {
+    dispatch(areaReaquest());
+
+    // API call to fetch live areas
+    const { data } = await axios.get(`${server}/areas/live`);
+
+    dispatch(getAllLiveAreasSuccess(data));
+  } catch (error) {
+    dispatch(
+      areaFail(error.response?.data?.message || "Failed to fetch live areas")
+    );
+  }
+};
+
 export const getAreas = () => async (dispatch) => {
   try {
     dispatch(areaReaquest());
@@ -33,15 +50,12 @@ export const createArea = (name) => async (dispatch) => {
   try {
     dispatch(areaReaquest());
 
-    const { data } = await axios.post(`${server}/createArea`, 
-        name,
-        {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-        }
-    );
+    const { data } = await axios.post(`${server}/createArea`, name, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
     dispatch(addArea(data));
     dispatch(getAreas());
@@ -59,19 +73,15 @@ export const editArea = (id, name) => async (dispatch) => {
   try {
     dispatch(areaReaquest());
 
-    const { data } = await axios.put(`${server}/updateArea/${id}`,
-        name,
-        {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-        }
-    );
+    const { data } = await axios.put(`${server}/updateArea/${id}`, name, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
     dispatch(updateArea(data));
     dispatch(getAreas());
-
   } catch (error) {
     return async (dispatch) => {
       dispatch(
@@ -86,11 +96,12 @@ export const deleteArea = (id) => async (dispatch) => {
   try {
     dispatch(areaReaquest());
 
-    const {data} = await axios.delete(`${server}/deleteArea/${id}`, {
-        withCredentials: true,
+    const { data } = await axios.delete(`${server}/deleteArea/${id}`, {
+      withCredentials: true,
     });
 
     dispatch(removeArea(id, data));
+    dispatch(getAreas());
   } catch (error) {
     return async (dispatch) => {
       dispatch(
@@ -99,7 +110,6 @@ export const deleteArea = (id) => async (dispatch) => {
     };
   }
 };
-
 
 export const toggleAreaLiveStatus = (id) => async (dispatch) => {
   try {
@@ -110,11 +120,11 @@ export const toggleAreaLiveStatus = (id) => async (dispatch) => {
     dispatch(updateArea(data)); // Directly use 'data' if it's the area
 
     dispatch(getAreas());
-
   } catch (error) {
     dispatch(
-      areaFail(error.response?.data?.message || 'Error updating area live status')
+      areaFail(
+        error.response?.data?.message || "Error updating area live status"
+      )
     );
   }
 };
-

@@ -6,7 +6,8 @@ import {
     getStudentById,
     updateStudent,
     deleteStudent,
-    getStudentBySubjectAndArea
+    getStudentBySubjectAndArea,
+    updateLiveStudent
 } from "../controllers/student.controller.js"
 
 import singleUpload from "../middlewares/multer.js" 
@@ -33,7 +34,7 @@ router.route("/student/:Id").put(singleUpload, updateStudent);
 router.route("/student/:Id").delete(deleteStudent);
 
 //update live status
-router.route("/student/updatelive/:Id").patch(updateStudent);
+router.route("/student/updatelive/:Id").patch(updateLiveStudent);
 
 //find student areaid and subjectid
 router.route("/admin/student").get(getStudentBySubjectAndArea);
